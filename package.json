@@ -1,0 +1,39 @@
+{
+  "name": "ts-starter",
+  "description": "This is the perfect template to start a new TypeScript + NodeJS project",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "license": "ISC",
+  "keywords": [
+    "typescript",
+    "ts",
+    "nodejs",
+    "node",
+    "template",
+    "starter"
+  ],
+  "author": {
+    "email": "martel_andre@proton.me",
+    "name": "André Martel"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node -r ts-node/register ./src/index.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.11.1",
+    "@types/node": "^22.7.0",
+    "eslint": "^9.11.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.7.0"
+  }
+}
