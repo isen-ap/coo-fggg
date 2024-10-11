@@ -1,3 +1,10 @@
-# TypeScript + NodeJS Starter
+# COO Pilot
+Clément Gambier
+Tristan Fumière
+Gabriel Gressier
+Alexandre Gine
 
-This is the perfect tempalte starter to initiate a TypeScript + NodeJS project
+
+## 2ème rendu
+- GET information création personnage
+- CREATE personnage
