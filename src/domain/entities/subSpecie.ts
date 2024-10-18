@@ -1,4 +1,4 @@
-class SubSpecies {
+export class SubSpecie {
   id: number;
   name: String;
 

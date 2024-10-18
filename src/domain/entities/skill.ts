@@ -1,13 +1,9 @@
-class Skill {
-  id : number;
-  name : String;
-  description: String;
+export class Skill {
+  id: String;
+  name: String;
 
-  constructor(name: String, description: String) {
-    // TODO: Put a real id generator here
-    this.id = 1;
-    
+  constructor(id: string, name: String) {
+    this.id = id;
     this.name = name;
-    this.description = description;
   }
 }

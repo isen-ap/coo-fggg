@@ -1,4 +1,4 @@
-class Language {
+export class Language {
   id: number;
   name: String;
   constructor(name: String) {
