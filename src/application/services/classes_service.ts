@@ -1,6 +1,6 @@
-import { ISpecieService } from "application/interfaces/specie_service_interface";
+import { IClassesService } from "application/interfaces/classes_service_interface";
 
-interface SpecieResponse {
+interface ClassesUrlResponse {
   count: number;
   results: Array<{
     index: string;
@@ -9,29 +9,29 @@ interface SpecieResponse {
   }>;
 }
 
-export class Service implements ISpecieService {
-  private cachedSpecies: string[] | null = null;
+export class ClassesService implements IClassesService {
+  private cachedClasses: string[] | null = null;
 
   constructor() {}
 
-  getSpecies(): string[] {
-    if (this.cachedSpecies) {
-      return this.cachedSpecies;
+  getClasses(): string[] {
+    if (this.cachedClasses) {
+      return this.cachedClasses;
     }
 
     // Déclencher le chargement en arrière-plan
-    this.loadSpecies();
+    this.loadClasses();
 
     return ["Loading..."]; // Valeur par défaut en attendant le chargement
   }
 
-  private async loadSpecies(): Promise<void> {
+  private async loadClasses(): Promise<void> {
     try {
       const urls = await this.getUrls();
-      await this.fetchSpecies(urls);
+      await this.fetchClasses(urls);
     } catch (error) {
       console.error("Error loading species:", error);
-      this.cachedSpecies = ["Error loading species"];
+      this.cachedClasses = ["Error loading species"];
     }
   }
 
@@ -45,19 +45,19 @@ export class Service implements ISpecieService {
     };
 
     try {
-      const response = await fetch("https://www.dnd5eapi.co/api/races", requestOptions);
-      const result = (await response.json()) as SpecieResponse;
-      return result.results.map((specie) => specie.url);
+      const response = await fetch("https://www.dnd5eapi.co/api/classes", requestOptions);
+      const result = (await response.json()) as ClassesUrlResponse;
+      return result.results.map((classes) => classes.url);
     } catch (error) {
       console.error("Error fetching species url:", error);
       return [];
     }
   }
 
-  private async fetchSpecies(speciesUrls: string[]): Promise<void> {
+  private async fetchClasses(classesUrls: string[]): Promise<void> {
     const speciesList: string[] = [];
 
-    for (const url of speciesUrls) {
+    for (const url of classesUrls) {
       const myHeaders = new Headers();
       myHeaders.append("Accept", "application/json");
       const requestOptions: RequestInit = {
@@ -76,6 +76,6 @@ export class Service implements ISpecieService {
       }
     }
 
-    this.cachedSpecies = speciesList;
+    this.cachedClasses = speciesList;
   }
 }

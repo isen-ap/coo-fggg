@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import morgan from "morgan";
 // import { AlignmentService } from "./application/services/alignment_service";
 // import { SpecieService } from "./application/services/specie_service";
+import { ClassesService } from "./application/services/classes_service";
 
 const app: Express = express();
 const port = 3000;
@@ -15,6 +16,9 @@ app.use(morgan("combined"));
 
 // const specieService = new SpecieService();
 // specieService.getSpecies();
+
+const classesService = new ClassesService();
+classesService.getClasses();
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Hello, TypeScript Express!" });
