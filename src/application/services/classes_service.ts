@@ -76,13 +76,12 @@ export class ClassesService implements IClassesService {
     const newCharac = new CharacterClass(
       result.index,
       result.name,
-      result.proficiency_choices?.[0]?.from?.options?.map((option: any) => option.item.name) || [],
-      result.proficiencies?.map((prof: any) => prof.name) || [],
-      result.saving_throws?.map((save: any) => save.name) || [],
+      result.proficiency_choices,
+      result.proficiencies,
+      result.saving_throws || [],
       result.spellcasting?.spellcasting_ability?.name || "",
       result.spells,
     );
-    console.log(newCharac);
     return newCharac;
   }
 }

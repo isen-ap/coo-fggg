@@ -1,4 +1,4 @@
-class CharacterClass {
+export class CharacterClass {
   id: number;
   name: string;
   skillToChoose: Array<string>;
