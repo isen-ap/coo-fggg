@@ -1,4 +1,4 @@
-// character_repository_interface.ts
-export interface ICharacterRepository {
-  getCharacter(): string;
+//pas sur de l'utilité de cette interface
+export interface ISpecieRepository {
+  getSpecies(): JSON;
 }
