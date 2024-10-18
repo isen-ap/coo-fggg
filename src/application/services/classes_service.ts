@@ -9,30 +9,24 @@ interface ClassesUrlResponse {
   }>;
 }
 
-export class ClassesService implements IClassesService {
-  private cachedClasses: string[] | null = null;
+class CharacterClass {
+  constructor(
+    public id: number,
+    public name: string,
+    public skillToChoose: Array<string>,
+    public skill: Array<string>,
+    public savingThrow: Array<string>,
+    public spellcastingAbility: string,
+    public spellLevelOne: Array<string>,
+  ) {}
+}
 
+export class ClassesService implements IClassesService {
   constructor() {}
 
-  getClasses(): string[] {
-    if (this.cachedClasses) {
-      return this.cachedClasses;
-    }
-
-    // Déclencher le chargement en arrière-plan
-    this.loadClasses();
-
-    return ["Loading..."]; // Valeur par défaut en attendant le chargement
-  }
-
-  private async loadClasses(): Promise<void> {
-    try {
-      const urls = await this.getUrls();
-      await this.fetchClasses(urls);
-    } catch (error) {
-      console.error("Error loading species:", error);
-      this.cachedClasses = ["Error loading species"];
-    }
+  async getClasses(): Promise<CharacterClass[]> {
+    const urls = await this.getUrls();
+    return await this.fetchClasses(urls);
   }
 
   private async getUrls(): Promise<string[]> {
@@ -49,13 +43,13 @@ export class ClassesService implements IClassesService {
       const result = (await response.json()) as ClassesUrlResponse;
       return result.results.map((classes) => classes.url);
     } catch (error) {
-      console.error("Error fetching species url:", error);
+      console.error("Error fetching classes url:", error);
       return [];
     }
   }
 
-  private async fetchClasses(classesUrls: string[]): Promise<void> {
-    const speciesList: string[] = [];
+  private async fetchClasses(classesUrls: string[]): Promise<CharacterClass[]> {
+    const classesList: CharacterClass[] = [];
 
     for (const url of classesUrls) {
       const myHeaders = new Headers();
@@ -69,13 +63,26 @@ export class ClassesService implements IClassesService {
       try {
         const response = await fetch(`https://www.dnd5eapi.co${url}`, requestOptions);
         const result = await response.json();
-        console.log(result);
-        //speciesList.push(result.name); // Assuming the species name is in the 'name' field
+        classesList.push(this.toCharacterClass(result));
       } catch (error) {
-        console.error(`Error fetching species from ${url}:`, error);
+        console.error(`Error fetching class from ${url}:`, error);
       }
     }
 
-    this.cachedClasses = speciesList;
+    return classesList;
+  }
+
+  private toCharacterClass(result: any): CharacterClass {
+    const newCharac = new CharacterClass(
+      result.index,
+      result.name,
+      result.proficiency_choices?.[0]?.from?.options?.map((option: any) => option.item.name) || [],
+      result.proficiencies?.map((prof: any) => prof.name) || [],
+      result.saving_throws?.map((save: any) => save.name) || [],
+      result.spellcasting?.spellcasting_ability?.name || "",
+      result.spells,
+    );
+    console.log(newCharac);
+    return newCharac;
   }
 }

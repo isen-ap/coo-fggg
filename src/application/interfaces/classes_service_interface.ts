@@ -1,3 +1,3 @@
 export interface IClassesService {
-  getClasses(): string[];
+  getClasses(): Promise<CharacterClass[]>;
 }

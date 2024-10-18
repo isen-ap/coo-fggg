@@ -18,7 +18,7 @@ app.use(morgan("combined"));
 // specieService.getSpecies();
 
 const classesService = new ClassesService();
-classesService.getClasses();
+console.log(classesService.getClasses());
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Hello, TypeScript Express!" });
