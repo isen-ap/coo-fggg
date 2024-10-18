@@ -1,0 +1,4 @@
+class AnonymousUser {
+  createCharacter() {}
+  exportCharacters() {}
+}

@@ -38,6 +38,8 @@
     "typescript-eslint": "^8.7.0"
   },
   "dependencies": {
-    "express": "^4.21.0"
+    "@types/morgan": "^1.9.9",
+    "express": "^4.21.0",
+    "morgan": "^1.10.0"
   }
 }
