@@ -3,6 +3,7 @@ import morgan from "morgan";
 // import { AlignmentService } from "./application/services/alignment_service";
 // import { SpecieService } from "./application/services/specie_service";
 import { ClassesService } from "./application/services/classes_service";
+import { CharacterService } from "./application/services/character_service";
 import { CharacterController } from "./interface/api/rest/character_controller";
 
 const app: Express = express();
@@ -19,13 +20,13 @@ app.use(morgan("combined"));
 // specieService.getSpecies();
 
 const classesService = new ClassesService();
-//console.log(classesService.getClasses());
+const characterService = new CharacterService();
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Hello, TypeScript Express!" });
 });
 
-new CharacterController(app, classesService);
+new CharacterController(app, classesService, characterService);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
