@@ -3,6 +3,7 @@ import morgan from "morgan";
 // import { AlignmentService } from "./application/services/alignment_service";
 // import { SpecieService } from "./application/services/specie_service";
 import { ClassesService } from "./application/services/classes_service";
+import { CharacterController } from "./interface/api/rest/character_controller";
 
 const app: Express = express();
 const port = 3000;
@@ -18,24 +19,13 @@ app.use(morgan("combined"));
 // specieService.getSpecies();
 
 const classesService = new ClassesService();
-console.log(classesService.getClasses());
+//console.log(classesService.getClasses());
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Hello, TypeScript Express!" });
 });
 
-app.get("/greet/:name", (req: Request, res: Response) => {
-  const { name } = req.params;
-  res.json({ message: `Hello, ${name}!` });
-});
-
-app.post("/api/data", (req: Request, res: Response) => {
-  const data = req.body;
-  res.json({
-    message: "Data received",
-    data: data,
-  });
-});
+new CharacterController(app, classesService);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
