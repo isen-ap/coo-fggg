@@ -1,16 +1,16 @@
 import { Request, Response, Application } from "express";
-import { CharacterService } from "../../../application/services/character_service";
+import { ClassesService } from "../../../application/services/classes_service";
 class CharacterController {
-  service: CharacterService;
+  classesService: ClassesService;
 
-  constructor(app: Application, service: CharacterService) {
-    this.service = service;
-    app.get("/characters", this.getCharacters.bind(this));
+  constructor(app: Application, classesService: ClassesService) {
+    this.classesService = classesService;
+    app.get("/characters-info", this.getCharacters.bind(this));
   }
 
-  getCharacters(_req: Request, res: Response) {
-    const character = this.service.getCharacter(1);
-    res.json(character);
+  async getCharacters(_req: Request, res: Response) {
+    const classes = await this.classesService.getClasses();
+    res.json(classes);
   }
 }
 
