@@ -27,6 +27,7 @@ app.get("/", (_req: Request, res: Response) => {
 
 new CharacterController(app, classesService, alignmentService);
 
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
