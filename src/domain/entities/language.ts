@@ -1,10 +1,8 @@
 class Language {
-  id: number;
+  id: String;
   name: String;
-  constructor(name: String) {
-    // TODO: Put a real id generator here
-    this.id = 1;
-
+  constructor(id: String, name: String) {
+    this.id = id;
     this.name = name;
   }
 }

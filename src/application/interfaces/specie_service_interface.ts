@@ -1,3 +1,3 @@
 export interface ISpecieService {
-  getSpecies(): string[];
+  getSpecies(): Species[];
 }

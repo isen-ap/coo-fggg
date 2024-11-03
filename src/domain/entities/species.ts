@@ -1,8 +1,8 @@
 class Species{
-  id : number;
+  id : String;
   name : String;
   height : number;
-  subSpecies : SubSpecies;
+  subSpecies : SubSpecies[];
   skills : Skill[];
   skillsToChoose : Skill[];
   languages : Language[];
@@ -10,10 +10,8 @@ class Species{
   traits : Trait[];
   characteristicBonus : String[];
 
-  constructor(name: String, height: number, subSpecies: SubSpecies, skills: Skill[], skillsToChoose: Skill[], languages: Language[], languagesToChoose: Language[], traits: Trait[], characteristicBonus: String[]) {
-    // TODO: Put a real id generator here
-    this.id = 1;
-
+  constructor(id: String, name: String, height: number, subSpecies: SubSpecies[], skills: Skill[], skillsToChoose: Skill[], languages: Language[], languagesToChoose: Language[], traits: Trait[], characteristicBonus: String[]) {
+    this.id = id;
     this.name = name;
     this.height = height;
     this.subSpecies = subSpecies;
