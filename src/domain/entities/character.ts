@@ -1,3 +1,6 @@
+import { CharacterClass } from "./character_class";
+import { Alignment } from "./alignment";
+
 class Character {
   name: string;
   picture: string;

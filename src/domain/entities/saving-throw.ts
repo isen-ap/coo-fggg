@@ -1,8 +1,8 @@
-export class Language {
+export class SavingThrow {
   id: string;
   name: string;
   constructor(id: string, name: string) {
-    this.id = id
+    this.id = id;
     this.name = name;
   }
 }
