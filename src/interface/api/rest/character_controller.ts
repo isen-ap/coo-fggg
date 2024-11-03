@@ -1,16 +1,21 @@
 import { Request, Response, Application } from "express";
-import { CharacterService } from "../../../application/services/character_service";
+import { ClassesService } from "../../../application/services/classes_service";
+import { AlignmentService } from "../../../application/services/alignment_service";
 class CharacterController {
-  service: CharacterService;
+  classesService: ClassesService;
+  alignmentService: AlignmentService;
 
-  constructor(app: Application, service: CharacterService) {
-    this.service = service;
-    app.get("/characters", this.getCharacters.bind(this));
+  constructor(app: Application, classesService: ClassesService, alignmentService: AlignmentService) {
+    this.classesService = classesService;
+    this.alignmentService = alignmentService;
+    app.get("/character", this.getCharacters.bind(this));
   }
 
-  getCharacters(_req: Request, res: Response) {
-    const character = this.service.getCharacter(1);
-    res.json(character);
+  async getCharacters(_req: Request, res: Response) {
+    const classes = await this.classesService.getClasses();
+    const alignments = await this.alignmentService.getAlignments();
+    console.log(alignments);
+    res.json({ classes, alignments });
   }
 }
 
