@@ -1,4 +1,4 @@
-class Trait {
+export class Trait {
   id: String;
   name: String;
   description: String;

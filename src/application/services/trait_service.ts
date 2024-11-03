@@ -1,4 +1,5 @@
 import { ITraitService } from "application/interfaces/trait_service_interface";
+import { Trait } from "../../domain/entities/trait";
 
 interface TraitUrlResponse {
   count: number;
@@ -44,6 +45,7 @@ export class TraitService implements ITraitService {
     // Déclencher le chargement en arrière-plan
     this.loadTraits();
 
+
     return []; // Valeur par défaut en attendant le chargement
   }
 
@@ -51,6 +53,10 @@ export class TraitService implements ITraitService {
     try {
       const urls = await this.getUrls();
       await this.fetchTraits(urls);
+
+      console.log("traits loaded");
+      console.log(this.cachedTraits);
+      
     } catch (error) {
       console.error("Error loading traits:", error);
       this.cachedTraits = null;

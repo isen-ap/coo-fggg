@@ -59,7 +59,7 @@ export class SpecieService implements ISpecieService {
   private async fetchSpecies(speciesUrls: string[]): Promise<void> {
     const speciesList: Species[] = [];
 
-    const allTraits = TraitService.getTraits();
+    // const allTraits = TraitService.getTraits();
 
     for (const url of speciesUrls) {
       const myHeaders = new Headers();
@@ -109,12 +109,12 @@ export class SpecieService implements ISpecieService {
 
         // Getting traits 
         const traits: Trait[] = [];
-        if (result.traits.length > 0) {
-          for (const element of result.traits) {
-            const trait = new Trait(element.index, element.name);
-            traits.push(trait)
-          }
-        }
+        // if (result.traits.length > 0) {
+        //   for (const element of result.traits) {
+        //     const trait = new Trait(element.index, element.name);
+        //     traits.push(trait)
+        //   }
+        // }
         
         console.log(result);
         const specie = new Species(
