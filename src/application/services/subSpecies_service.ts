@@ -1,7 +1,8 @@
 import { ISubSpeciesService } from "application/interfaces/subSpecies_service_interface";
 import { SubSpecies } from "../../domain/entities/subSpecies";
+// import { LanguageServiceInstance } from "./language_service";
+import { Language } from "../../domain/entities/language";
 import { LanguageServiceInstance } from "./language_service";
-import { Language } from "domain/entities/language";
 
 interface SubSpeciesUrlResponse {
   count: number;
@@ -26,6 +27,19 @@ interface SubSpeciesResponse {
     name: string;
     url: string;
   }>
+  language_options: {
+    choose: number;
+    from: {
+      options: Array<{
+        option_type: string;
+        item: {
+          index: string;
+          name: string;
+          url: string;
+        }
+      }>
+    }
+  }
   url: string;
 }
 
@@ -78,7 +92,9 @@ class SubSpeciesService implements ISubSpeciesService {
         const response = await fetch(`https://www.dnd5eapi.co/api/subraces/${url}`, requestOptions);
         const result = (await response.json()) as SubSpeciesResponse;
 
-        const subSpecieLanguages = []
+
+        const subSpecieLanguages: Language[] = [];
+        const subSpecieLanguagesOptions: Language[] = []
         if (result.languages.length > 0) {
           const allLangauges = await LanguageServiceInstance.getLanguages()
 
@@ -89,8 +105,14 @@ class SubSpeciesService implements ISubSpeciesService {
             ]
           }
         }
+        if (result.language_options) {
+          for (const language of result.language_options.from.options) {
+            const languageOption = new Language(language.item.index, language.item.name);
+            subSpecieLanguagesOptions.push(languageOption);
+          }
+        }
 
-        subSpeciesList.push(new SubSpecies(url, result.name, result.desc.toString(), subSpecieLanguages));
+        subSpeciesList.push(new SubSpecies(url, result.name, result.desc.toString(),subSpecieLanguages, subSpecieLanguagesOptions));
       } catch (error) {
         console.error("Error fetching subSpecies:", error);
       }

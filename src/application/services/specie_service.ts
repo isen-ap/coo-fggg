@@ -116,13 +116,13 @@ export class SpecieService implements ISpecieService {
         //   }
         // }
         if (result.language_options) {
-          // for (const language of result.language_options.from) {
-          //   const allLanguages = await LanguageServiceInstance.getLanguages();
-          //   const languageToAdd = allLanguages.find((lang: Language) => lang.id === language.index);
-          //   if (languageToAdd) {
-          //     languagesToChoose.push(languageToAdd);
-          //   }
-          // }
+          for (const language of result.language_options.from.options) {
+            const allLanguages = await LanguageServiceInstance.getLanguages();
+            const languageToAdd = allLanguages.find((lang: Language) => lang.id === language.item.index);
+            if (languageToAdd) {
+              languagesToChoose.push(languageToAdd);
+            }
+          }
         }
 
         // Getting traits 

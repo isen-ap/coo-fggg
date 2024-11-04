@@ -64,11 +64,11 @@ class LanguageService implements ILanguageService {
       };
 
       try {
-        const response = await fetch(`https://www.dnd5eapi.co/api/languages/${url}`, requestOptions);
+        const response = await fetch(`https://www.dnd5eapi.co${url}`, requestOptions);        
         const result = (await response.json()) as LanguageResponse;
         languageList.push(new Language(url, result.name));
       } catch (error) {
-        console.error("Error fetching trait:", error);
+        console.error("Error fetching language:", error);
       }
     }
 
