@@ -5,6 +5,7 @@ import { Species } from "../../domain/entities/species";
 import { SubSpecies } from "../../domain/entities/subSpecies";
 // import { Skill } from "../../domain/entities/skill";
 import { Language } from "../../domain/entities/language";
+import { LanguageServiceInstance } from "./language_service";
 
 
 interface SpecieResponse {
@@ -102,25 +103,28 @@ export class SpecieService implements ISpecieService {
         // Getting languages
         const languages: Language[] = [];
         if (result.languages.length > 0) {
-          for (const element of result.languages) {
-            const language = new Language(element.index, element.name);
-            languages.push(language)
+          const allLangauges = await LanguageServiceInstance.getLanguages()
+
+          for (const resultLanguage of result.languages) {
+            const language = allLangauges.find((language: Language) => language.id === resultLanguage.index);
+            if (language) [
+              languages.push(language)
+            ]
           }
         }
 
         // Getting languagesToChoose
+        // TODO
 
         // Getting traits 
         const availableTraits: Trait[] = [];
         if (result.traits.length > 0) {
-          const allTraits = TraitServiceInstance.getTraits();
+          const allTraits = await TraitServiceInstance.getTraits();
           
           for (const resultTrait of result.traits) {
             const trait = allTraits.find((trait: Trait) => trait.id === resultTrait.index);
             if (trait) {
               availableTraits.push(trait);
-            } else {
-              console.log("pas de trait pour " , resultTrait.index);
             }
           }
         }
@@ -129,12 +133,12 @@ export class SpecieService implements ISpecieService {
         const specie = new Species(
           result.index,
           result.name,
-          result.size, // Assuming size is for height attribute
+          result.size,
           subSpecies,
           result.skills, // TODO
           result.skillsToChoose, // TODO
           languages,
-          result.languagesToChoose,
+          result.languagesToChoose, // TODO
           availableTraits,
           result.characteristicBonus
         );

@@ -19,7 +19,7 @@ interface LanguageResponse {
   url: string
 }
 
-export class LanguageService implements ILanguageService {
+class LanguageService implements ILanguageService {
   private cachedLanguages: Language[] | null = null;
   constructor() {}
 
@@ -76,3 +76,5 @@ export class LanguageService implements ILanguageService {
     return languageList
   }
 }
+
+export const LanguageServiceInstance = new LanguageService()

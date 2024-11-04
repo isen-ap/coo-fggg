@@ -37,26 +37,13 @@ class TraitService implements ITraitService {
 
   constructor() {}
 
-  getTraits(): Trait[] {
+  async getTraits(): Promise<Trait[]> {
     if (this.cachedTraits) {
       return this.cachedTraits;
     }
 
-    // Déclencher le chargement en arrière-plan
-    this.loadTraits();
-
-
-    return []; // Valeur par défaut en attendant le chargement
-  }
-
-  private async loadTraits(): Promise<void> {
-    try {
-      const urls = await this.getUrls();
-      await this.fetchTraits(urls);
-    } catch (error) {
-      console.error("Error loading traits:", error);
-      this.cachedTraits = null;
-    }
+    const urls = await this.getUrls();
+    return await this.fetchTraits(urls);
   }
 
   private async getUrls(): Promise<string[]> {
@@ -78,7 +65,7 @@ class TraitService implements ITraitService {
     }
   }
 
-  private async fetchTraits(traitsUrls: string[]): Promise<void> {
+  private async fetchTraits(traitsUrls: string[]): Promise<Trait[]> {
     const traitsList: Trait[] = [];
 
     for (const url of traitsUrls) {
@@ -100,6 +87,7 @@ class TraitService implements ITraitService {
     }
 
     this.cachedTraits = traitsList;
+    return traitsList
   }
 }
 
