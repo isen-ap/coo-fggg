@@ -1,5 +1,5 @@
 import { ISpecieService } from "application/interfaces/specie_service_interface";
-import { TraitServiceInstance } from "./trait_service";
+// import { TraitServiceInstance } from "./trait_service";
 import { Trait } from "../../domain/entities/trait";
 import { Species } from "../../domain/entities/species";
 import { SubSpecies } from "../../domain/entities/subSpecies";
@@ -23,25 +23,13 @@ export class SpecieService implements ISpecieService {
 
   constructor() {}
 
-  getSpecies(): Species[] {
+  async getSpecies(): Promise<Species[]> {
     if (this.cachedSpecies) {
       return this.cachedSpecies;
     }
 
-    // Déclencher le chargement en arrière-plan
-    this.loadSpecies();
-
-    return []; // Valeur par défaut en attendant le chargement
-  }
-
-  private async loadSpecies(): Promise<void> {
-    try {
-      const urls = await this.getUrls();
-      await this.fetchSpecies(urls);
-    } catch (error) {
-      console.error("Error loading species:", error);
-      this.cachedSpecies = null;
-    }
+    const urls = await this.getUrls();
+    return await this.fetchSpecies(urls);
   }
 
   private async getUrls(): Promise<string[]> {
@@ -63,7 +51,7 @@ export class SpecieService implements ISpecieService {
     }
   }
 
-  private async fetchSpecies(speciesUrls: string[]): Promise<void> {
+  private async fetchSpecies(speciesUrls: string[]): Promise<Species[]> {
     const speciesList: Species[] = [];
 
 
@@ -128,27 +116,27 @@ export class SpecieService implements ISpecieService {
         //   }
         // }
         if (result.language_options) {
-          for (const language of result.language_options.from) {
-            const allLanguages = await LanguageServiceInstance.getLanguages();
-            const languageToAdd = allLanguages.find((lang: Language) => lang.id === language.index);
-            if (languageToAdd) {
-              languagesToChoose.push(languageToAdd);
-            }
-          }
+          // for (const language of result.language_options.from) {
+          //   const allLanguages = await LanguageServiceInstance.getLanguages();
+          //   const languageToAdd = allLanguages.find((lang: Language) => lang.id === language.index);
+          //   if (languageToAdd) {
+          //     languagesToChoose.push(languageToAdd);
+          //   }
+          // }
         }
 
         // Getting traits 
         const availableTraits: Trait[] = [];
-        if (result.traits.length > 0) {
-          const allTraits = await TraitServiceInstance.getTraits();
+        // if (result.traits.length > 0) {
+        //   const allTraits = await TraitServiceInstance.getTraits();
           
-          for (const resultTrait of result.traits) {
-            const trait = allTraits.find((trait: Trait) => trait.id === resultTrait.index);
-            if (trait) {
-              availableTraits.push(trait);
-            }
-          }
-        }
+        //   for (const resultTrait of result.traits) {
+        //     const trait = allTraits.find((trait: Trait) => trait.id === resultTrait.index);
+        //     if (trait) {
+        //       availableTraits.push(trait);
+        //     }
+        //   }
+        // }
         
         const specie = new Species(
           result.index,
@@ -171,5 +159,6 @@ export class SpecieService implements ISpecieService {
     }
 
     this.cachedSpecies = speciesList;
+    return speciesList;
   }
 }

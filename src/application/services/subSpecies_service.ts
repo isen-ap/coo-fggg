@@ -90,7 +90,7 @@ class SubSpeciesService implements ISubSpeciesService {
           }
         }
 
-        subSpeciesList.push(new SubSpecies(url, result.name, result.desc[0], subSpecieLanguages));
+        subSpeciesList.push(new SubSpecies(url, result.name, result.desc.toString(), subSpecieLanguages));
       } catch (error) {
         console.error("Error fetching subSpecies:", error);
       }
