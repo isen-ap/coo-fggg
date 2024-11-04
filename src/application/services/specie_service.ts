@@ -6,6 +6,7 @@ import { SubSpecies } from "../../domain/entities/subSpecies";
 // import { Skill } from "../../domain/entities/skill";
 import { Language } from "../../domain/entities/language";
 import { LanguageServiceInstance } from "./language_service";
+import { SubSpeciesServiceInstance } from "./subSpecies_service";
 
 
 interface SpecieResponse {
@@ -83,8 +84,12 @@ export class SpecieService implements ISpecieService {
         const subSpecies: SubSpecies[] = [];
         if (result.subraces.length > 0) {
           for (const subrace of result.subraces) {
-            const subSpecie = new SubSpecies(subrace.index, subrace.name);
-            subSpecies.push(subSpecie);
+            const allSubSpecies = await SubSpeciesServiceInstance.getSubSpecies();
+
+            const subSpecie = allSubSpecies.find((subSpecie: SubSpecies) => subSpecie.id === subrace.index);
+            if (subSpecie) {
+              subSpecies.push(subSpecie);
+            }
           }
         }
 
@@ -115,7 +120,12 @@ export class SpecieService implements ISpecieService {
         }
 
         // Getting languagesToChoose
-        // TODO trouver les subspecies
+        const languagesToChoose: Language[] = [];
+        for (const subSpecie of subSpecies) {
+          for (const language of subSpecie.languagesOptions) {
+            languagesToChoose.push(language);
+          }
+        }
 
         // Getting traits 
         const availableTraits: Trait[] = [];
@@ -130,7 +140,6 @@ export class SpecieService implements ISpecieService {
           }
         }
         
-        // console.log(result);
         const specie = new Species(
           result.index,
           result.name,
@@ -139,13 +148,13 @@ export class SpecieService implements ISpecieService {
           result.skills, // TODO
           result.skillsToChoose, // TODO
           languages,
-          result.languagesToChoose, // TODO
+          languagesToChoose,
           availableTraits,
           result.characteristicBonus
         );
         console.log(specie);
         
-        speciesList.push(specie); // Assuming the species name is in the 'name' field
+        speciesList.push(specie);
       } catch (error) {
         console.error(`Error fetching species from ${url}:`, error);
       }
