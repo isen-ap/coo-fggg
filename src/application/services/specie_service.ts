@@ -3,7 +3,7 @@ import { TraitServiceInstance } from "./trait_service";
 import { Trait } from "../../domain/entities/trait";
 import { Species } from "../../domain/entities/species";
 import { SubSpecies } from "../../domain/entities/subSpecies";
-// import { Skill } from "../../domain/entities/skill";
+import { Skill } from "../../domain/entities/skill";
 import { Language } from "../../domain/entities/language";
 import { LanguageServiceInstance } from "./language_service";
 import { SubSpeciesServiceInstance } from "./subSpecies_service";
@@ -95,7 +95,7 @@ export class SpecieService implements ISpecieService {
 
         // Getting skills
         // TODO : Trouver l'endroit ou se situe les skills dans l'api
-        // const skills: Skill[] = [];
+        const skills: Skill[] = [];
         // if (result.skills.length > 0) {
         //   for (const element of result.skills) {
         //     const skill = new Skill(element.index, element.name, element.desc[0]);
@@ -105,6 +105,7 @@ export class SpecieService implements ISpecieService {
 
         // Getting skillsToChoose
         // TODO: Implement
+        const skillsToChoose: Skill[] = [];
 
         // Getting languages
         const languages: Language[] = [];
@@ -121,9 +122,18 @@ export class SpecieService implements ISpecieService {
 
         // Getting languagesToChoose
         const languagesToChoose: Language[] = [];
-        for (const subSpecie of subSpecies) {
-          for (const language of subSpecie.languagesOptions) {
-            languagesToChoose.push(language);
+        // for (const subSpecie of subSpecies) {
+        //   for (const language of subSpecie.languagesOptions) {
+        //     languagesToChoose.push(language);
+        //   }
+        // }
+        if (result.language_options) {
+          for (const language of result.language_options.from) {
+            const allLanguages = await LanguageServiceInstance.getLanguages();
+            const languageToAdd = allLanguages.find((lang: Language) => lang.id === language.index);
+            if (languageToAdd) {
+              languagesToChoose.push(languageToAdd);
+            }
           }
         }
 
@@ -145,14 +155,14 @@ export class SpecieService implements ISpecieService {
           result.name,
           result.size,
           subSpecies,
-          result.skills, // TODO
-          result.skillsToChoose, // TODO
+          skills, // TODO
+          skillsToChoose, // TODO
           languages,
           languagesToChoose,
           availableTraits,
           result.characteristicBonus
         );
-        console.log(specie);
+        // console.log(specie);
         
         speciesList.push(specie);
       } catch (error) {
