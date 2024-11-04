@@ -1,5 +1,5 @@
-import { Skill } from "../../domain/entities/skill";
+import { Proficiencies } from "../../domain/entities/proficiencies";
 
 export interface ISkillService {
-  getSkills(): Promise<Skill[]>;
+  getSkills(): Promise<Proficiencies[]>;
 }

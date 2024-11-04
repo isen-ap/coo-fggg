@@ -3,10 +3,12 @@ import { TraitServiceInstance } from "./trait_service";
 import { Trait } from "../../domain/entities/trait";
 import { Species } from "../../domain/entities/species";
 import { SubSpecies } from "../../domain/entities/subSpecies";
-import { Skill } from "../../domain/entities/skill";
+// import { Skill } from "../../domain/entities/skill";
+import { Proficiencies } from "../../domain/entities/proficiencies";
 import { Language } from "../../domain/entities/language";
 import { LanguageServiceInstance } from "./language_service";
 import { SubSpeciesServiceInstance } from "./subSpecies_service";
+import { SkillServiceInstance } from "./skill_service";
 
 
 interface SpecieResponse {
@@ -81,19 +83,35 @@ export class SpecieService implements ISpecieService {
           }
         }
 
-        // Getting skills
+        // Getting proficiencies
         // TODO : Trouver l'endroit ou se situe les skills dans l'api
-        const skills: Skill[] = [];
-        // if (result.skills.length > 0) {
-        //   for (const element of result.skills) {
-        //     const skill = new Skill(element.index, element.name, element.desc[0]);
-        //     skills.push(skill)
-        //   }
-        // }
+        const skills: Proficiencies[] = [];
+        if (result.starting_proficiencies.length > 0) {
+          const allSkills = await SkillServiceInstance.getSkills();
+
+          for (const element of result.starting_proficiencies) {
+            for (const skill of allSkills) {
+              if (skill.id === element.index) {
+                skills.push(skill)
+              }
+            }
+          }
+        }
 
         // Getting skillsToChoose
         // TODO: Implement
-        const skillsToChoose: Skill[] = [];
+        const skillsToChoose: Proficiencies[] = [];
+        if (result.starting_proficiencies_options) {
+          const allSkills = await SkillServiceInstance.getSkills();
+
+          for (const element of result.starting_proficiencies.from.options) {
+            for (const skill of allSkills) {
+              if (skill.id === element.item.index) {
+                skillsToChoose.push(skill)
+              }
+            }
+          }
+        }
 
         // Getting languages
         const languages: Language[] = [];

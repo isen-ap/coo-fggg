@@ -1,5 +1,5 @@
 import { ISkillService } from "application/interfaces/skill_service_interface";
-import { Skill } from "../../domain/entities/skill";
+import { Proficiencies } from "../../domain/entities/proficiencies";
 
 interface SkillUrlResponse {
   count: number;
@@ -23,11 +23,11 @@ interface SkillResponse {
 }
 
 class SkillService implements ISkillService {
-  private cachedSkills: Skill[] | null = null;
+  private cachedSkills: Proficiencies[] | null = null;
 
   constructor() {}
 
-  async getSkills(): Promise<Skill[]> {
+  async getSkills(): Promise<Proficiencies[]> {
     if (this.cachedSkills) {
       return this.cachedSkills;
     }
@@ -46,7 +46,7 @@ class SkillService implements ISkillService {
     };
 
     try {
-      const response = await fetch("https://www.dnd5eapi.co/api/skills", requestOptions);
+      const response = await fetch("https://www.dnd5eapi.co/api/proficiencies", requestOptions);
       const result = (await response.json()) as SkillUrlResponse;
       return result.results.map((skill) => skill.index);
     } catch (error) {
@@ -55,8 +55,8 @@ class SkillService implements ISkillService {
     }
   }
 
-  private async fetchSkills(skillsUrls: string[]): Promise<Skill[]> {
-    const skillsList: Skill[] = [];
+  private async fetchSkills(skillsUrls: string[]): Promise<Proficiencies[]> {
+    const skillsList: Proficiencies[] = [];
 
     for (const url of skillsUrls) {
       const myHeaders = new Headers();
@@ -68,9 +68,10 @@ class SkillService implements ISkillService {
       };
 
       try {
-        const response = await fetch(`https://www.dnd5eapi.co/api/skills/${url}`, requestOptions);
+        console.log(`https://www.dnd5eapi.co/api/proficiencies/${url}`);
+        const response = await fetch(`https://www.dnd5eapi.co/api/proficiencies/${url}`, requestOptions);
         const result = (await response.json()) as SkillResponse;
-        skillsList.push(new Skill(url, result.name, result.desc[0]));
+        skillsList.push(new Proficiencies(result.index, result.name));
       } catch (error) {
         console.error("Error fetching skill:", error);
       }

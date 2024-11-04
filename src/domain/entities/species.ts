@@ -1,21 +1,21 @@
 import { Trait } from "./trait"
 import { Language } from "./language"
 import { SubSpecies } from "./subSpecies"
-import { Skill } from "./skill"
+import { Proficiencies } from "./proficiencies";
 
 export class Species{
   id : String;
   name : String;
   height : number;
   subSpecies : SubSpecies[];
-  skills : Skill[];
-  skillsToChoose : Skill[];
+  skills : Proficiencies[];
+  skillsToChoose : Proficiencies[];
   languages : Language[];
   languagesToChoose : Language[];
   traits : Trait[];
   characteristicBonus : String[];
 
-  constructor(id: String, name: String, height: number, subSpecies: SubSpecies[], skills: Skill[], skillsToChoose: Skill[], languages: Language[], languagesToChoose: Language[], traits: Trait[], characteristicBonus: String[]) {
+  constructor(id: String, name: String, height: number, subSpecies: SubSpecies[], skills: Proficiencies[], skillsToChoose: Proficiencies[], languages: Language[], languagesToChoose: Language[], traits: Trait[], characteristicBonus: String[]) {
     this.id = id;
     this.name = name;
     this.height = height;
