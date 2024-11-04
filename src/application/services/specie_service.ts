@@ -1,5 +1,5 @@
 import { ISpecieService } from "application/interfaces/specie_service_interface";
-// import { TraitServiceInstance } from "./trait_service";
+import { TraitServiceInstance } from "./trait_service";
 import { Trait } from "../../domain/entities/trait";
 import { Species } from "../../domain/entities/species";
 import { SubSpecies } from "../../domain/entities/subSpecies";
@@ -101,19 +101,11 @@ export class SpecieService implements ISpecieService {
           const allLangauges = await LanguageServiceInstance.getLanguages()
 
           for (const resultLanguage of result.languages) {
-            console.log('resultLanguage', resultLanguage, ' for species', result.name);
             for (const language of allLangauges) {
-              console.log('language', language);
               if (language.id === resultLanguage.index) {
-                console.log('language found', language);
                 languages.push(language)
               }
             }
-            // const language = allLangauges.find((language: Language) => language.id === resultLanguage.index);
-            // console.log('language', language);
-            // if (language) {
-            //   languages.push(language)
-            // }
           }
         } else {
           console.log('No languages found for species', result.name);
@@ -121,11 +113,6 @@ export class SpecieService implements ISpecieService {
 
         // Getting languagesToChoose
         const languagesToChoose: Language[] = [];
-        // for (const subSpecie of subSpecies) {
-        //   for (const language of subSpecie.languagesOptions) {
-        //     languagesToChoose.push(language);
-        //   }
-        // }
         if (result.language_options) {
           for (const language of result.language_options.from.options) {
             const allLanguages = await LanguageServiceInstance.getLanguages();
@@ -138,16 +125,16 @@ export class SpecieService implements ISpecieService {
 
         // Getting traits 
         const availableTraits: Trait[] = [];
-        // if (result.traits.length > 0) {
-        //   const allTraits = await TraitServiceInstance.getTraits();
+        if (result.traits.length > 0) {
+          const allTraits = await TraitServiceInstance.getTraits();
           
-        //   for (const resultTrait of result.traits) {
-        //     const trait = allTraits.find((trait: Trait) => trait.id === resultTrait.index);
-        //     if (trait) {
-        //       availableTraits.push(trait);
-        //     }
-        //   }
-        // }
+          for (const resultTrait of result.traits) {
+            const trait = allTraits.find((trait: Trait) => trait.id === resultTrait.index);
+            if (trait) {
+              availableTraits.push(trait);
+            }
+          }
+        }
         
         const specie = new Species(
           result.index,
