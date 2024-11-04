@@ -89,6 +89,7 @@ export class SpecieService implements ISpecieService {
         }
 
         // Getting skills
+        // TODO : Trouver l'endroit ou se situe les skills dans l'api
         // const skills: Skill[] = [];
         // if (result.skills.length > 0) {
         //   for (const element of result.skills) {
@@ -114,7 +115,7 @@ export class SpecieService implements ISpecieService {
         }
 
         // Getting languagesToChoose
-        // TODO
+        // TODO trouver les subspecies
 
         // Getting traits 
         const availableTraits: Trait[] = [];
