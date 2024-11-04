@@ -1,4 +1,9 @@
-class Species{
+import { Trait } from "./trait"
+import { Language } from "./language"
+import { SubSpecies } from "./subSpecies"
+import { Skill } from "./skill"
+
+export class Species{
   id : String;
   name : String;
   height : number;

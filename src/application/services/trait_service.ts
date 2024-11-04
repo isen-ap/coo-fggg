@@ -32,7 +32,7 @@ interface TraitResponse {
   url: string;
 }
 
-export class TraitService implements ITraitService {
+class TraitService implements ITraitService {
   private cachedTraits: Trait[] | null = null;
 
   constructor() {}
@@ -53,10 +53,6 @@ export class TraitService implements ITraitService {
     try {
       const urls = await this.getUrls();
       await this.fetchTraits(urls);
-
-      console.log("traits loaded");
-      console.log(this.cachedTraits);
-      
     } catch (error) {
       console.error("Error loading traits:", error);
       this.cachedTraits = null;
@@ -106,3 +102,5 @@ export class TraitService implements ITraitService {
     this.cachedTraits = traitsList;
   }
 }
+
+export const TraitServiceInstance = new TraitService();

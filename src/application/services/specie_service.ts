@@ -1,5 +1,10 @@
 import { ISpecieService } from "application/interfaces/specie_service_interface";
-import { TraitService } from "./trait_service";
+import { TraitServiceInstance } from "./trait_service";
+import { Trait } from "../../domain/entities/trait";
+import { Species } from "../../domain/entities/species";
+import { SubSpecies } from "../../domain/entities/subSpecies";
+// import { Skill } from "../../domain/entities/skill";
+import { Language } from "../../domain/entities/language";
 
 
 interface SpecieResponse {
@@ -59,7 +64,6 @@ export class SpecieService implements ISpecieService {
   private async fetchSpecies(speciesUrls: string[]): Promise<void> {
     const speciesList: Species[] = [];
 
-    // const allTraits = TraitService.getTraits();
 
     for (const url of speciesUrls) {
       const myHeaders = new Headers();
@@ -73,7 +77,6 @@ export class SpecieService implements ISpecieService {
       try {
         const response = await fetch(`https://www.dnd5eapi.co${url}`, requestOptions);
         const result: any = await response.json();
-        console.log(result);
 
         // Getting subSpecies
         const subSpecies: SubSpecies[] = [];
@@ -85,13 +88,13 @@ export class SpecieService implements ISpecieService {
         }
 
         // Getting skills
-        const skills: Skill[] = [];
-        if (result.skills.length > 0) {
-          for (const element of result.skills) {
-            const skill = new Skill(element.index, element.name, element.desc[0]);
-            skills.push(skill)
-          }
-        }
+        // const skills: Skill[] = [];
+        // if (result.skills.length > 0) {
+        //   for (const element of result.skills) {
+        //     const skill = new Skill(element.index, element.name, element.desc[0]);
+        //     skills.push(skill)
+        //   }
+        // }
 
         // Getting skillsToChoose
         // TODO: Implement
@@ -108,15 +111,21 @@ export class SpecieService implements ISpecieService {
         // Getting languagesToChoose
 
         // Getting traits 
-        const traits: Trait[] = [];
-        // if (result.traits.length > 0) {
-        //   for (const element of result.traits) {
-        //     const trait = new Trait(element.index, element.name);
-        //     traits.push(trait)
-        //   }
-        // }
+        const availableTraits: Trait[] = [];
+        if (result.traits.length > 0) {
+          const allTraits = TraitServiceInstance.getTraits();
+          
+          for (const resultTrait of result.traits) {
+            const trait = allTraits.find((trait: Trait) => trait.id === resultTrait.index);
+            if (trait) {
+              availableTraits.push(trait);
+            } else {
+              console.log("pas de trait pour " , resultTrait.index);
+            }
+          }
+        }
         
-        console.log(result);
+        // console.log(result);
         const specie = new Species(
           result.index,
           result.name,
@@ -126,10 +135,12 @@ export class SpecieService implements ISpecieService {
           result.skillsToChoose, // TODO
           languages,
           result.languagesToChoose,
-          result.traits, // TODO
+          availableTraits,
           result.characteristicBonus
         );
-        //speciesList.push(result.name); // Assuming the species name is in the 'name' field
+        console.log(specie);
+        
+        speciesList.push(specie); // Assuming the species name is in the 'name' field
       } catch (error) {
         console.error(`Error fetching species from ${url}:`, error);
       }

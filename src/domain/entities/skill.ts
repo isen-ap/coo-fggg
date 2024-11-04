@@ -1,4 +1,4 @@
-class Skill {
+export class Skill {
   id : String;
   name : String;
   description: String;
