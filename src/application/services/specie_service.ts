@@ -101,11 +101,22 @@ export class SpecieService implements ISpecieService {
           const allLangauges = await LanguageServiceInstance.getLanguages()
 
           for (const resultLanguage of result.languages) {
-            const language = allLangauges.find((language: Language) => language.id === resultLanguage.index);
-            if (language) [
-              languages.push(language)
-            ]
+            console.log('resultLanguage', resultLanguage, ' for species', result.name);
+            for (const language of allLangauges) {
+              console.log('language', language);
+              if (language.id === resultLanguage.index) {
+                console.log('language found', language);
+                languages.push(language)
+              }
+            }
+            // const language = allLangauges.find((language: Language) => language.id === resultLanguage.index);
+            // console.log('language', language);
+            // if (language) {
+            //   languages.push(language)
+            // }
           }
+        } else {
+          console.log('No languages found for species', result.name);
         }
 
         // Getting languagesToChoose
