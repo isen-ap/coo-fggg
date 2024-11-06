@@ -19,9 +19,9 @@ class CharacterController {
   async createCharacter(req: Request, res: Response) {
     try {
       await this.characterService.createCharacter(req.body);
-      res.status(200).json({ message: "Données enregistrées avec succès" });
+      res.status(200).json({ message: "character created" });
     } catch (error) {
-      res.status(500).json({ error: "Une erreur est survenue lors de l'enregistrement des données" });
+      res.status(500).json({ error: "error while creating character" });
     }
   }
 }
