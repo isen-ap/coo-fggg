@@ -84,30 +84,31 @@ export class SpecieService implements ISpecieService {
         }
 
         // Getting proficiencies
-        // TODO : Trouver l'endroit ou se situe les skills dans l'api
-        const skills: Proficiencies[] = [];
+        const proficiencies: Proficiencies[] = [];
         if (result.starting_proficiencies.length > 0) {
-          const allSkills = await SkillServiceInstance.getSkills();
+          const allProficiencies = await SkillServiceInstance.getSkills();
 
           for (const element of result.starting_proficiencies) {
-            for (const skill of allSkills) {
-              if (skill.id === element.index) {
-                skills.push(skill)
+            for (const proficiencie of allProficiencies) {
+              if (proficiencie.id === element.index) {
+                proficiencies.push(proficiencie)
               }
             }
           }
         }
 
-        // Getting skillsToChoose
-        // TODO: Implement
-        const skillsToChoose: Proficiencies[] = [];
+        // Getting proficienciesToChoose
+        const proficienciesToChoose: {choose: number, from: Proficiencies[]} = {
+          choose: result.starting_proficiencies_options ? result.starting_proficiencies_options.choose : 0, 
+          from: []
+        };
         if (result.starting_proficiencies_options) {
-          const allSkills = await SkillServiceInstance.getSkills();
+          const allProficiencies = await SkillServiceInstance.getSkills();
 
           for (const element of result.starting_proficiencies.from.options) {
-            for (const skill of allSkills) {
-              if (skill.id === element.item.index) {
-                skillsToChoose.push(skill)
+            for (const proficiencie of allProficiencies) {
+              if (proficiencie.id === element.item.index) {
+                proficienciesToChoose.from.push(proficiencie)
               }
             }
           }
@@ -130,13 +131,16 @@ export class SpecieService implements ISpecieService {
         }
 
         // Getting languagesToChoose
-        const languagesToChoose: Language[] = [];
+        const languagesToChoose: {choose: number, from: Language[]} = {
+          choose: result.language_options ? result.language_options.choose : 0, 
+          from: []
+        };
         if (result.language_options) {
           for (const language of result.language_options.from.options) {
             const allLanguages = await LanguageServiceInstance.getLanguages();
             const languageToAdd = allLanguages.find((lang: Language) => lang.id === language.item.index);
             if (languageToAdd) {
-              languagesToChoose.push(languageToAdd);
+              languagesToChoose.from.push(languageToAdd);
             }
           }
         }
@@ -159,14 +163,13 @@ export class SpecieService implements ISpecieService {
           result.name,
           result.size,
           subSpecies,
-          skills, // TODO
-          skillsToChoose, // TODO
+          proficiencies,
+          proficienciesToChoose,
           languages,
           languagesToChoose,
           availableTraits,
           result.characteristicBonus
         );
-        // console.log(specie);
         
         speciesList.push(specie);
       } catch (error) {

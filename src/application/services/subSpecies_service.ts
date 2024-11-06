@@ -94,7 +94,10 @@ class SubSpeciesService implements ISubSpeciesService {
 
 
         const subSpecieLanguages: Language[] = [];
-        const subSpecieLanguagesOptions: Language[] = []
+        const subSpecieLanguagesOptions: { choose: number, from: Language[] } = { 
+          choose: result.language_options ? result.language_options.choose : 0, 
+          from: [] 
+        };
         if (result.languages.length > 0) {
           const allLangauges = await LanguageServiceInstance.getLanguages()
 
@@ -108,7 +111,7 @@ class SubSpeciesService implements ISubSpeciesService {
         if (result.language_options) {
           for (const language of result.language_options.from.options) {
             const languageOption = new Language(language.item.index, language.item.name);
-            subSpecieLanguagesOptions.push(languageOption);
+            subSpecieLanguagesOptions.from.push(languageOption);
           }
         }
 
