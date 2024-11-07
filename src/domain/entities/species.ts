@@ -1,24 +1,27 @@
-class Species{
-  id : number;
+import { Trait } from "./trait"
+import { Language } from "./language"
+import { SubSpecies } from "./subSpecies"
+import { Proficiencies } from "./proficiencies";
+
+export class Species{
+  id : String;
   name : String;
   height : number;
-  subSpecies : SubSpecies;
-  skills : Skill[];
-  skillsToChoose : Skill[];
+  subSpecies : SubSpecies[];
+  proficiencies : Proficiencies[];
+  proficienciesToChoose : {choose: number, from: Proficiencies[]};
   languages : Language[];
-  languagesToChoose : Language[];
+  languagesToChoose : {choose: number, from: Language[]};
   traits : Trait[];
   characteristicBonus : String[];
 
-  constructor(name: String, height: number, subSpecies: SubSpecies, skills: Skill[], skillsToChoose: Skill[], languages: Language[], languagesToChoose: Language[], traits: Trait[], characteristicBonus: String[]) {
-    // TODO: Put a real id generator here
-    this.id = 1;
-
+  constructor(id: String, name: String, height: number, subSpecies: SubSpecies[], proficiencies: Proficiencies[], proficienciesToChoose: {choose: number, from: Proficiencies[]}, languages: Language[], languagesToChoose: {choose: number, from: Language[]}, traits: Trait[], characteristicBonus: String[]) {
+    this.id = id;
     this.name = name;
     this.height = height;
     this.subSpecies = subSpecies;
-    this.skills = skills;
-    this.skillsToChoose = skillsToChoose;
+    this.proficiencies = proficiencies;
+    this.proficienciesToChoose = proficienciesToChoose;
     this.languages = languages;
     this.languagesToChoose = languagesToChoose;
     this.traits = traits; 

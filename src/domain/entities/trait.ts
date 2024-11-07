@@ -1,11 +1,9 @@
-class Trait {
-  id: number;
+export class Trait {
+  id: String;
   name: String;
   description: String;
-  constructor(name: String, description: String) {
-    // TODO: Put a real id generator here
-    this.id = 1;
-
+  constructor(id: String, name: String, description: String) {
+    this.id = id;
     this.name = name;
     this.description = description;
   }

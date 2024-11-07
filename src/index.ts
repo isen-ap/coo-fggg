@@ -1,9 +1,10 @@
 import express, { Express, Request, Response } from "express";
 import morgan from "morgan";
-import { AlignmentService } from "./application/services/alignment_service";
 // import { SpecieService } from "./application/services/specie_service";
-import { ClassesService } from "./application/services/classes_service";
-import { CharacterController } from "./interface/api/rest/character_controller";
+// import { LanguageServiceInstance } from "./application/services/language_service";
+// import { AlignmentService } from "./application/services/alignment_service";
+// import { ClassesService } from "./application/services/classes_service";
+// import { CharacterController } from "./interface/api/rest/character_controller";
 
 const app: Express = express();
 const port = 3000;
@@ -12,20 +13,29 @@ app.use(express.json());
 
 app.use(morgan("combined"));
 
-const alignmentService = new AlignmentService();
-alignmentService.getAlignments();
+// const alignmentService = new AlignmentService();
+// alignmentService.getAlignments();
 
 // const specieService = new SpecieService();
-// specieService.getSpecies();
 
-const classesService = new ClassesService();
-//console.log(classesService.getClasses());
+
+// const classesService = new ClassesService();
+// console.log(classesService.getClasses());
+
+// const traitService = new TraitService();
+// console.log(traitService.getTraits());
+
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Hello, TypeScript Express!" });
 });
 
-new CharacterController(app, classesService, alignmentService);
+// app.get("/species", async (_req: Request, res: Response) => {
+//   const species = await specieService.getSpecies();
+//   res.json(species);
+// });
+
+// new CharacterController(app, classesService, alignmentService);
 
 
 app.listen(port, () => {

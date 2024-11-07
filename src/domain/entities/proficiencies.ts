@@ -1,6 +1,6 @@
-export class Skill {
-  id: String;
-  name: String;
+export class Proficiencies {
+  id : String;
+  name : String;
 
   constructor(id: String, name: String) {
     this.id = id;

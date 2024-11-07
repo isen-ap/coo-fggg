@@ -1,3 +1,5 @@
+import { Species } from "../../domain/entities/species";
+
 export interface ISpecieService {
-  getSpecies(): string[];
+  getSpecies(): Promise<Species[]>;
 }
