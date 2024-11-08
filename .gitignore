@@ -1,7 +1,10 @@
 node_modules
 dist
 
-.idea
-.vscode
-*.log*
-.npm
+*/.DS_Store
+*/.idea
+*/.vscode
+*/*.log*
+*/.npm
+
+data.json

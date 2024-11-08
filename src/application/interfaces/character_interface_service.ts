@@ -1,3 +1,3 @@
 export interface ICharacterService {
-  getCharacter(id: number): string;
+  createCharacter(body: JSON): void;
 }
