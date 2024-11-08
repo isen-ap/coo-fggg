@@ -39,7 +39,7 @@ Récupérer les données de l'API
   "specie": {
     "id": "",
     "languagesToChoose": ["dwarvish"],
-    "proficienciesToChoose": [1, 2],
+    "proficienciesToChoose": ["smiths-tools", "brewers-supplies"],
     "subSpecies": [
       {
         "id": "hill-dwarf"

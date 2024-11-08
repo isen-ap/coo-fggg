@@ -3,6 +3,7 @@ import morgan from "morgan";
 import { SpecieService } from "./application/services/specie_service";
 import { AlignmentService } from "./application/services/alignment_service";
 import { ClassesService } from "./application/services/classes_service";
+import { CharacterService } from "./application/services/character_service";
 import { CharacterController } from "./interface/api/rest/character_controller";
 
 const app: Express = express();
@@ -18,11 +19,13 @@ const alignmentService = new AlignmentService();
 
 const specieService = new SpecieService();
 
+const characterService = new CharacterService();
+
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Hello, TypeScript Express!" });
 });
 
-new CharacterController(app, classesService, alignmentService, specieService);
+new CharacterController(app, classesService, alignmentService, specieService, characterService);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
