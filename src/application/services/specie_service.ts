@@ -99,13 +99,13 @@ export class SpecieService implements ISpecieService {
 
         // Getting proficienciesToChoose
         const proficienciesToChoose: {choose: number, from: Proficiencies[]} = {
-          choose: result.starting_proficiencies_options ? result.starting_proficiencies_options.choose : 0, 
+          choose: result.starting_proficiency_options ? result.starting_proficiency_options.choose : 0, 
           from: []
         };
-        if (result.starting_proficiencies_options) {
+        if (result.starting_proficiency_options) {
           const allProficiencies = await SkillServiceInstance.getSkills();
 
-          for (const element of result.starting_proficiencies.from.options) {
+          for (const element of result.starting_proficiency_options.from.options) {
             for (const proficiencie of allProficiencies) {
               if (proficiencie.id === element.item.index) {
                 proficienciesToChoose.from.push(proficiencie)

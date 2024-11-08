@@ -21,6 +21,7 @@ app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Hello, TypeScript Express!" });
 });
 
+
 new CharacterController(app, classesService, alignmentService, specieService);
 
 app.listen(port, () => {
