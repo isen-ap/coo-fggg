@@ -21,10 +21,6 @@ app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Hello, TypeScript Express!" });
 });
 
-app.get("/species", async (_req: Request, res: Response) => {
-  const species = await specieService.getSpecies();
-  res.json(species);
-});
 
 new CharacterController(app, classesService, alignmentService, specieService);
 
