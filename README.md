@@ -32,18 +32,17 @@ Récupérer les données de l'API
   "name": "Bilbon",
   "picture": "https://i0.wp.com/lehobbitblog.wordpress.com/wp-content/uploads/2016/01/bilbon-sacquet.png?w=383&h=639&ssl=1",
   "class": {
-    "id": "",
-    "skillToChoose": []
+    "id": "barbarian",
+    "skillToChoose": ["skill-acrobatics", "skill-animal-handling"]
   },
   "alignment": "Lawful Good",
   "specie": {
     "id": "",
-    "languagesToChoose": "",
-    "proficienciesToChoose": "",
+    "languagesToChoose": ["dwarvish"],
+    "proficienciesToChoose": [1, 2],
     "subSpecies": [
       {
-        "id": "",
-        "languagesOptions": ""
+        "id": "hill-dwarf"
       }
     ]
   }
