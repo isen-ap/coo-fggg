@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(morgan("combined"));
 
 const classesService = new ClassesService();
+
 const alignmentService = new AlignmentService();
 
 const specieService = new SpecieService();
@@ -20,7 +21,6 @@ const specieService = new SpecieService();
 app.get("/", (_req: Request, res: Response) => {
   res.json({ message: "Hello, TypeScript Express!" });
 });
-
 
 new CharacterController(app, classesService, alignmentService, specieService);
 
